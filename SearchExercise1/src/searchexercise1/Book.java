@@ -1,5 +1,7 @@
 package searchexercise1;
 
+import java.util.Objects;
+
 /* Jay Ahn
  * Nov 17 2025
  * Book Class
@@ -29,4 +31,26 @@ public class Book {
         this.rNum = rNum;
         this.title = title;
     }
+
+    public int getrNum() {
+        return rNum;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setrNum(int rNum) {
+        this.rNum = rNum;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" + "rNum=" + rNum + ", title=" + title + '}';
+    }
+
 }
