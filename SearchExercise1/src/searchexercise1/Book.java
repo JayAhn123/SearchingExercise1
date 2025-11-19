@@ -32,25 +32,31 @@ public class Book {
         this.title = title;
     }
 
+    //accessors
     public int getrNum() {
-        return rNum;
+        return rNum;//returns reference number
     }
 
     public String getTitle() {
-        return title;
+        return title;//returns title 
     }
 
+    //mutators
     public void setrNum(int rNum) {
-        this.rNum = rNum;
+        this.rNum = rNum;//setting reference number
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title;//setting the title
     }
 
-    @Override
+    /**
+     * toString method
+     *
+     * @return - formatted string of book object
+     */
     public String toString() {
-        return "Book{" + "rNum=" + rNum + ", title=" + title + '}';
+        return "Book{" + "rNum=" + rNum + ", title=" + title + '}';//returns formatted string
     }
 
 }

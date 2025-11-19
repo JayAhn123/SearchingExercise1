@@ -1,20 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package searchexercise1;
 
-/**
- *
- * @author JaAhn8882
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+/* Jay Ahn
+ * Nov 18 2025
+ * Program that searches for book
  */
 public class SearchExercise1 extends javax.swing.JFrame {
+
+    ArrayList<Book> books = new ArrayList();
 
     /**
      * Creates new form SearchExercise1
      */
     public SearchExercise1() {
         initComponents();
+        try {
+            int rNum;
+            String title;
+            File f = new File("searchexercise1/src/BookList.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                rNum = Integer.parseInt(s.nextLine());
+                title = s.nextLine();
+                Book a = new Book(rNum, title);
+                books.add(a);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: " + e);
+        }
+
     }
 
     /**
