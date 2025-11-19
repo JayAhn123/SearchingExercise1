@@ -21,7 +21,7 @@ public class SearchExercise1 extends javax.swing.JFrame {
         try {
             int rNum;
             String title;
-            File f = new File("searchexercise1/src/BookList.txt");
+            File f = new File("src/searchexercise1/BookList.txt");
             Scanner s = new Scanner(f);
             while (s.hasNextLine()) {
                 rNum = Integer.parseInt(s.nextLine());
@@ -32,7 +32,6 @@ public class SearchExercise1 extends javax.swing.JFrame {
         } catch (FileNotFoundException e) {
             System.out.println("Error: " + e);
         }
-
     }
 
     /**
@@ -51,8 +50,8 @@ public class SearchExercise1 extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtrNum = new javax.swing.JTextField();
         btnFind = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtLinS = new javax.swing.JTextField();
+        txtBinS = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,10 +68,15 @@ public class SearchExercise1 extends javax.swing.JFrame {
         jLabel5.setText("Binary Search:");
 
         btnFind.setText("Find it!");
+        btnFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindActionPerformed(evt);
+            }
+        });
 
-        jTextField2.setEditable(false);
+        txtLinS.setEditable(false);
 
-        jTextField3.setEditable(false);
+        txtBinS.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,7 +88,7 @@ public class SearchExercise1 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3))
+                        .addComponent(txtBinS))
                     .addComponent(lblDes)
                     .addComponent(lblTitle)
                     .addGroup(layout.createSequentialGroup()
@@ -96,7 +100,7 @@ public class SearchExercise1 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtLinS, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,16 +119,67 @@ public class SearchExercise1 extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLinS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBinS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+        int rNum = Integer.parseInt(txtrNum.getText());
+        txtLinS.setText(searchLinear(rNum));
+        int index[] = searchBinary(rNum, 0, books.size() - 1, 0);
+        String s;
+        if (index[0] != -1) {
+            s = "Found: " + books.get(index[0]).getTitle() + ". " + index[1] + " books processed";
+        } else {
+            s = "Book # " + rNum + " is not in the list";
+        }
+        txtBinS.setText(s);
+    }//GEN-LAST:event_btnFindActionPerformed
+
+    private String searchLinear(int rNum) {
+        int counter = 1;
+        boolean count = true;
+        Book a = new Book();
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getrNum() == rNum) {
+                a = books.get(i);
+                count = false;
+            }
+            if (count) {
+                counter++;
+            }
+        }
+        if (a.getTitle().equals("")) {
+            return "Book # " + rNum + " is not in the list";
+        } else {
+            return "Found: " + a.getTitle() + ". " + counter + " books processed";
+        }
+    }
+
+    private int[] searchBinary(int rNum, int left, int right, int counter) {
+        int middle = (left + right) / 2;
+        if (left > right) {
+            int[] a = {-1, 0};
+            return a;
+        } else if (books.get(middle).getrNum() == rNum) {
+            counter++;
+            int[] a = {middle, counter};
+            return a;
+        } else if (books.get(middle).getrNum() > rNum) {
+            counter++;
+            return searchBinary(rNum, left, middle - 1, counter);
+        } else {
+            counter++;
+            return searchBinary(rNum, middle + 1, right, counter);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -165,11 +220,11 @@ public class SearchExercise1 extends javax.swing.JFrame {
     private javax.swing.JButton btnFind;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblDes;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblrNum;
+    private javax.swing.JTextField txtBinS;
+    private javax.swing.JTextField txtLinS;
     private javax.swing.JTextField txtrNum;
     // End of variables declaration//GEN-END:variables
 }
